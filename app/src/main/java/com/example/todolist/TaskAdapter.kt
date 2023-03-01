@@ -29,6 +29,8 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
 
             viewHolder = TaskItemViewHolder()
             viewHolder.title = view!!.findViewById<View>(R.id.title) as TextView
+            viewHolder.state = view!!.findViewById<View>(R.id.state) as TextView
+            viewHolder.deadline = view!!.findViewById<View>(R.id.deadline) as TextView
 
         } else {
             //no need to call findViewById , can use existing ones from saved view holder
@@ -37,7 +39,9 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
 
         val task = getItem(i)
         viewHolder.title!!.text = task!!.title
-        //autre var je pense
+        viewHolder.state!!.text = task!!.state
+        viewHolder.deadline!!.text = task!!.deadline
+
 
         view.tag = viewHolder
 
