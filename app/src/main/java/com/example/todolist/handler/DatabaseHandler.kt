@@ -32,7 +32,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         //  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS)
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS")
         onCreate(db)
     }
 
@@ -77,6 +77,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
                 taskList.add(task)
             } while (cursor.moveToNext())
         }
+        cursor.close()
         return taskList
     }
     //method to update data

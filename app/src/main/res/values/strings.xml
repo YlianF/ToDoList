@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TodoList</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="finish">finish</string>
+    <string name="todolist">ToDoList</string>
+    <string name="plus">+</string>
 </resources>

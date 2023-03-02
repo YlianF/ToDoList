@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="40dp"
-        android:text="ToDoList"
-        android:textSize="30dp"
+        android:text="@string/todolist"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addButton"
-        android:text="+"
-        android:textSize="60dp"
+        android:text="@string/plus"
+        android:textSize="60sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -40,7 +40,7 @@
         <ListView
             android:id="@+id/layoutListV"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"

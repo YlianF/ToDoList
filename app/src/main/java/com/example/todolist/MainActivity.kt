@@ -4,10 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todolist.adapter.TaskAdapter
@@ -20,35 +17,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btn: Button = findViewById(R.id.addButton)
-        val laListView : ListView = findViewById(R.id.layoutListV)
 
         btn.setOnClickListener {
             val intent = Intent(this@MainActivity, AddTask::class.java)
             startActivity(intent)
         }
 
-
-
-        /*
-        val taskArray = arrayListOf(
-            Task(1, "1","en cours", "demain"),
-            Task(2,"22222222222222222222222222222222","fini", "demain"),
-            Task(3,"3","en cours", "demain"),
-            Task(4,"4","en cours", "demain"),
-            Task(5,"5","en retard", "demain"),
-            Task(6,"6","fini", "demain"),
-            Task(7,"777777777777777777777777777777777777777777777777777777777777777777777777777777","en cours", "demain"),
-            Task(8,"8","en retard", "demain"),
-            Task(9,"9","en cours", "demain"),
-            Task(10,"10","en cours", "demain"),
-            Task(11,"11","fini", "demain")
-        )
-
-        val adapter = TaskAdapter(taskArray, this)
-        laListView.adapter = adapter
-
-         */
-        var tasktest = Task(1, "la tache de la destinée radieuse", "en cours", "maintenant")
         saveRecord()
         viewRecord()
     }
@@ -58,12 +32,12 @@ class MainActivity : AppCompatActivity() {
 
     //method for saving records in database
 
-    fun saveRecord(){
+    private fun saveRecord(){
         //val id = findViewById<EditText>(R.id.u_id).text.toString()
         //val name = findViewById<EditText>(R.id.u_name).text.toString()
         //val email = findViewById<EditText>(R.id.u_email).text.toString()
-        val id = "3"
-        val title = "la tache du test3"
+        val id = "14"
+        val title = "la tache du test1"
         val state = "fini"
         val deadline = "maintenant"
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
@@ -83,26 +57,24 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //method for read records from database in ListView
-    fun viewRecord(){
-        //creating the instance of DatabaseHandler class
-        val databaseHandler: DatabaseHandler= DatabaseHandler(this)
-        //calling the viewEmployee method of DatabaseHandler class to read the records
+
+    private fun viewRecord(){
+
+        val databaseHandler = DatabaseHandler(this)
+
         val taskArray: List<Task> = databaseHandler.viewTask()
-        val taskArrayId = Array<String>(taskArray.size){"0"}
-        val taskArrayTitle = Array<String>(taskArray.size){"null"}
-        val taskArrayState = Array<String>(taskArray.size){"null"}
-        val taskArrayDeadline = Array<String>(taskArray.size){"null"}
-        var index = 0
-        for(t in taskArray){
+        val taskArrayId = Array(taskArray.size){"0"}
+        val taskArrayTitle = Array(taskArray.size){"null"}
+        val taskArrayState = Array(taskArray.size){"null"}
+        val taskArrayDeadline = Array(taskArray.size){"null"}
+        for((index, t) in taskArray.withIndex()){
             taskArrayId[index] = t.id.toString()
             taskArrayTitle[index] = t.title
             taskArrayState[index] = t.state
             taskArrayDeadline[index] = t.deadline
-            index++
         }
         //creating custom ArrayAdapter
-        val myListAdapter = TaskAdapter(this,taskArrayTitle,taskArrayState,taskArrayDeadline)
+        val myListAdapter = TaskAdapter(this,taskArrayId,taskArrayTitle,taskArrayState,taskArrayDeadline)
         findViewById<ListView>(R.id.layoutListV).adapter = myListAdapter
     }
     //method for updating records based on user id
@@ -145,29 +117,32 @@ class MainActivity : AppCompatActivity() {
     }
     */
     //method for deleting records based on id
-    fun deleteRecord(view: View, id: String){
+    fun deleteRecord(view: View){
+
         //creating AlertDialog for taking user id
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.delete_dialog, null)
         dialogBuilder.setView(dialogView)
 
-        val dltId = dialogView.findViewById(R.id.deleteId) as EditText
+        val separated: List<String> = view.contentDescription.split(" ")
+        val deleteId = separated[2]
+
         dialogBuilder.setTitle("Delete Record")
-        dialogBuilder.setMessage("Enter id below")
         dialogBuilder.setPositiveButton("Delete", DialogInterface.OnClickListener { _, _ ->
 
-            val deleteId = dltId.text.toString()
             //creating the instance of DatabaseHandler class
-            val databaseHandler: DatabaseHandler= DatabaseHandler(this)
+            val databaseHandler = DatabaseHandler(this)
             if(deleteId.trim()!=""){
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
                 val status = databaseHandler.deleteTask(Task(Integer.parseInt(deleteId),"","", ""))
                 if(status > -1){
-                    Toast.makeText(applicationContext,"record deleted",Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext,"Task " + Integer.parseInt(deleteId).toString() + " deleted",
+                        Toast.LENGTH_LONG).show()
+                    viewRecord()
                 }
             }else{
-                Toast.makeText(applicationContext,"id or name or email cannot be blank",Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext,"error",Toast.LENGTH_LONG).show()
             }
 
         })
@@ -177,7 +152,5 @@ class MainActivity : AppCompatActivity() {
         val b = dialogBuilder.create()
         b.show()
     }
-
-    fun deleteRecord(view: View) {}
 
 }
