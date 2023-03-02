@@ -3,10 +3,8 @@ package com.example.todolist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,36 +14,25 @@ class MainActivity : AppCompatActivity() {
         val btn: Button = findViewById(R.id.addButton)
         val laListView : ListView = findViewById(R.id.layoutListV)
 
-        btn.setOnClickListener() {
+        btn.setOnClickListener {
             val intent = Intent(this@MainActivity, AddTask::class.java)
             startActivity(intent)
         }
 
-        val TaskArray = arrayListOf<Task>(
-            Task("Outer Banks","en cours", "demain"),
-            Task("One Piece","en cours", "demain"),
-            Task("Avatar 2","en retard", "demain"),
-            Task("Avatar 2","en cours", "demain"),
-            Task("Avatar 2","fini", "demain"),
-            Task("Avatar 2","fini", "demain"),
-            Task("Avatar 2","en retard", "demain"),
-            Task("Avatar 2","en cours", "demain"),
-            Task("Avatar 2","en retard", "demain"),
-            Task("Avatar 2","en cours", "demain"),
-            Task("Avatar 2","fini", "demain"),
-            Task("Avatar 2","en retard", "demain"),
-            Task("Avatar 2","fini", "demain"),
-            Task("le titre est beaucoup trop long la lorem ipsum dorime iterimo dorime","en cours", "demain"),
-            Task("Avatar 2","en cours", "demain"),
-            Task("Avatar 2","en retard", "demain"),
-            Task("Avatar 2","fini", "demain"),
-            Task("faire la vaisselle","en cours", "demain"),
-            Task("faire le tp de virtualisation","en retard", "demain"),
-            Task("faire le ménage","en cours", "demain"),
-            Task("Avatar 2","en cours", "demain"),
-            Task("Avatar 2","fini", "demain"))
+        val taskArray = arrayListOf(
+            Task("1","en cours", "demain"),
+            Task("22222222222222222222222222222222","fini", "demain"),
+            Task("3","en cours", "demain"),
+            Task("4","en cours", "demain"),
+            Task("5","en retard", "demain"),
+            Task("6","fini", "demain"),
+            Task("777777777777777777777777777777777777777777777777777777777777777777777777777777","en cours", "demain"),
+            Task("8","en retard", "demain"),
+            Task("9","en cours", "demain"),
+            Task("10","en cours", "demain"),
+            Task("11","fini", "demain"))
 
-        val adapter = TaskAdapter(TaskArray, this)
+        val adapter = TaskAdapter(taskArray, this)
 
         laListView.adapter = adapter
     }

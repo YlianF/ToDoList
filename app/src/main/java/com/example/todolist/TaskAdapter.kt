@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 
 class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
@@ -12,13 +13,13 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
 
     //view holder is used to prevent findViewBy calls
     private class TaskItemViewHolder {
-        internal var title: TextView? = null
-        internal var state: TextView? = null
-        internal var deadline: TextView? = null
+        var title: TextView? = null
+        var state: TextView? = null
+        var deadline: TextView? = null
     }
 
     override fun getView(i: Int, view : View?, viewGroup: ViewGroup): View {
-        var view = view
+        var view: View? = view
 
         val viewHolder: TaskItemViewHolder
 
@@ -27,9 +28,9 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
             view = inflater.inflate(R.layout.list_item_recipe,viewGroup, false)
 
             viewHolder = TaskItemViewHolder()
-            viewHolder.title = view!!.findViewById<View>(R.id.title) as TextView
-            viewHolder.state = view!!.findViewById<View>(R.id.state) as TextView
-            viewHolder.deadline = view!!.findViewById<View>(R.id.deadline) as TextView
+            viewHolder.title = view.findViewById<View>(R.id.title) as TextView
+            viewHolder.state = view.findViewById<View>(R.id.state) as TextView
+            viewHolder.deadline = view.findViewById<View>(R.id.deadline) as TextView
 
 
         } else {
@@ -38,29 +39,33 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
         }
 
         val task = getItem(i)
-        viewHolder.title!!.text = task!!.title
-        viewHolder.state!!.text = task!!.state
-        viewHolder.deadline!!.text = task!!.deadline
 
+        val layoutItem : LinearLayout = view!!.findViewById(R.id.layoutItem)
+        val btnCheck : AppCompatImageButton = view.findViewById(R.id.btnCheck)
+
+        if (task!!.state == "en cours") {
+            layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_light_purple)
+        } else if (task.state == "fini") {
+            btnCheck.visibility = View.GONE
+            task.deadline = ""
+            layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_green)
+        } else if (task.state == "en retard") {
+            task.deadline = ""
+            layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_dark_purple)
+        }
+
+
+        viewHolder.title!!.text = task.title
+        viewHolder.state!!.text = task.state
+        viewHolder.deadline!!.text = task.deadline
 
         view.tag = viewHolder
 
-        //COLOR
-        val layoutItem : LinearLayout = view!!.findViewById<LinearLayout>(R.id.layoutItem)
 
-        if (task!!.state == "en cours") {
-            layoutItem.setBackgroundColor(ContextCompat.getColor(context, R.color.purple_200));
-        }
-        if (task!!.state == "fini") {
-            layoutItem.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-        }
-        if (task!!.state == "en retard") {
-            layoutItem.setBackgroundColor(ContextCompat.getColor(context, R.color.purple_700));
-        }
 
 
         viewHolder.title!!.setOnClickListener {
-            Toast.makeText(context, "The title is " + task!!.title,
+            Toast.makeText(context, "The title is " + task.title,
                 Toast.LENGTH_SHORT).show()
         }
 
