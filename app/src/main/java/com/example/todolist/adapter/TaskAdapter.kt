@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.todolist.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
+import com.example.todolist.R
+import com.example.todolist.classes.Task
 
 class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
-    ArrayAdapter<Task>(ctx,R.layout.list_item_recipe, items){
+    ArrayAdapter<Task>(ctx, R.layout.list_item_recipe, items){
 
     //view holder is used to prevent findViewBy calls
     private class TaskItemViewHolder {
@@ -44,12 +46,18 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
         val btnCheck : AppCompatImageButton = view.findViewById(R.id.btnCheck)
 
         if (task!!.state == "en cours") {
-            layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_light_purple)
+            layoutItem.background = ContextCompat.getDrawable(context,
+                R.drawable.rounded_corners_light_purple
+            )
         } else if (task.state == "fini") {
             btnCheck.visibility = View.GONE
-            layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_green)
+            layoutItem.background = ContextCompat.getDrawable(context,
+                R.drawable.rounded_corners_green
+            )
         } else if (task.state == "en retard") {
-            layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_dark_purple)
+            layoutItem.background = ContextCompat.getDrawable(context,
+                R.drawable.rounded_corners_dark_purple
+            )
         }
 
 

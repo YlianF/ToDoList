@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
+import com.example.todolist.adapter.TaskAdapter
+import com.example.todolist.classes.Task
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +32,8 @@ class MainActivity : AppCompatActivity() {
             Task("8","en retard", "demain"),
             Task("9","en cours", "demain"),
             Task("10","en cours", "demain"),
-            Task("11","fini", "demain"))
+            Task("11","fini", "demain")
+        )
 
         val adapter = TaskAdapter(taskArray, this)
 
