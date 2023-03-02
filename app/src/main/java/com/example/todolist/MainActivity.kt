@@ -1,10 +1,11 @@
 package com.example.todolist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,5 +36,6 @@ class MainActivity : AppCompatActivity() {
         val adapter = TaskAdapter(taskArray, this)
 
         laListView.adapter = adapter
+
     }
 }

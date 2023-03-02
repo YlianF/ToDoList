@@ -47,10 +47,8 @@ class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
             layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_light_purple)
         } else if (task.state == "fini") {
             btnCheck.visibility = View.GONE
-            task.deadline = ""
             layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_green)
         } else if (task.state == "en retard") {
-            task.deadline = ""
             layoutItem.background = ContextCompat.getDrawable(context, R.drawable.rounded_corners_dark_purple)
         }
 

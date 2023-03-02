@@ -2,6 +2,7 @@ package com.example.todolist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 
 class AddTask : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
