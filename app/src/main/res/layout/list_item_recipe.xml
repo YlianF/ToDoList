@@ -49,10 +49,12 @@
         android:src="@drawable/check_circle_fill1_wght400_grad0_opsz48" />
 
     <ImageButton
+        android:id="@+id/btnDel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         android:contentDescription="@string/cancel"
+        android:onClick="deleteRecord"
         android:src="@drawable/cancel_fill1_wght400_grad0_opsz48" />
 
 </LinearLayout>

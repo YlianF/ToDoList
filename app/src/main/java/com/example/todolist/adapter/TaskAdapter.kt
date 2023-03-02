@@ -1,5 +1,6 @@
 package com.example.todolist.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,73 +10,42 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import com.example.todolist.R
 import com.example.todolist.classes.Task
+class TaskAdapter(private val context: Activity,
+                  private val title: Array<String>,
+                  private val state: Array<String>,
+                  private val deadline: Array<String>)
+    : ArrayAdapter<String>(context, R.layout.list_item_recipe, title) {
 
-class TaskAdapter(items:ArrayList<Task>, ctx: Context) :
-    ArrayAdapter<Task>(ctx, R.layout.list_item_recipe, items){
+    override fun getView(position: Int, view: View?, parent: ViewGroup): View {
+        val inflater = context.layoutInflater
+        val rowView = inflater.inflate(R.layout.list_item_recipe, null, true)
 
-    //view holder is used to prevent findViewBy calls
-    private class TaskItemViewHolder {
-        var title: TextView? = null
-        var state: TextView? = null
-        var deadline: TextView? = null
-    }
+        val titleText = rowView.findViewById(R.id.title) as TextView
+        val stateText = rowView.findViewById(R.id.state) as TextView
+        val deadlineText = rowView.findViewById(R.id.deadline) as TextView
 
-    override fun getView(i: Int, view : View?, viewGroup: ViewGroup): View {
-        var view: View? = view
+        val layoutItem : LinearLayout = rowView.findViewById(R.id.layoutItem)
+        val btnCheck : AppCompatImageButton = rowView.findViewById(R.id.btnCheck)
 
-        val viewHolder: TaskItemViewHolder
-
-        if (view == null ) {
-            val inflater = LayoutInflater.from(context)
-            view = inflater.inflate(R.layout.list_item_recipe,viewGroup, false)
-
-            viewHolder = TaskItemViewHolder()
-            viewHolder.title = view.findViewById<View>(R.id.title) as TextView
-            viewHolder.state = view.findViewById<View>(R.id.state) as TextView
-            viewHolder.deadline = view.findViewById<View>(R.id.deadline) as TextView
-
-
-        } else {
-            //no need to call findViewById , can use existing ones from saved view holder
-            viewHolder = view.tag as TaskItemViewHolder
-        }
-
-        val task = getItem(i)
-
-        val layoutItem : LinearLayout = view!!.findViewById(R.id.layoutItem)
-        val btnCheck : AppCompatImageButton = view.findViewById(R.id.btnCheck)
-
-        if (task!!.state == "en cours") {
+        if ("${state[position]}" == "en cours") {
             layoutItem.background = ContextCompat.getDrawable(context,
                 R.drawable.rounded_corners_light_purple
             )
-        } else if (task.state == "fini") {
+        } else if ("${state[position]}" == "fini") {
             btnCheck.visibility = View.GONE
             layoutItem.background = ContextCompat.getDrawable(context,
                 R.drawable.rounded_corners_green
             )
-        } else if (task.state == "en retard") {
+        } else if ("${state[position]}" == "en retard") {
             layoutItem.background = ContextCompat.getDrawable(context,
                 R.drawable.rounded_corners_dark_purple
             )
         }
 
 
-        viewHolder.title!!.text = task.title
-        viewHolder.state!!.text = task.state
-        viewHolder.deadline!!.text = task.deadline
-
-        view.tag = viewHolder
-
-
-
-
-        viewHolder.title!!.setOnClickListener {
-            Toast.makeText(context, "The title is " + task.title,
-                Toast.LENGTH_SHORT).show()
-        }
-
-        return view
+        titleText.text = "${title[position]}"
+        stateText.text = "${state[position]}"
+        deadlineText.text = "${deadline[position]}"
+        return rowView
     }
 }
-
