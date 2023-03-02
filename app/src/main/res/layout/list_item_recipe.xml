@@ -2,33 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="20dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="10"
-        android:textSize="15sp"
-        android:text="" />
+        android:text=""
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="10"
-        android:textSize="15sp"
-        android:text="" />
+        android:text=""
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="10"
-        android:textSize="15sp"
-        android:text="" />
+        android:text=""
+        android:textSize="15sp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -44,4 +44,5 @@
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/finish"
         android:src="@drawable/check_circle_fill1_wght400_grad0_opsz48" />
+
 </LinearLayout>
