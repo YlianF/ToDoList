@@ -95,6 +95,35 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db.close() // Closing database connection
         return success
     }
+
+
+    fun finishTask(id: Int):Int{
+
+        val task = Task(0, "", "", "")
+        val vt = viewTask()
+        for(i in vt){
+            if (i.id == id) {
+                task.id = i.id
+                task.title = i.title
+                task.state = "fini"
+                task.deadline = i.deadline
+            }
+        }
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_ID, task.id)
+        contentValues.put(KEY_TITLE, task.title)
+        contentValues.put(KEY_STATE,task.state )
+        contentValues.put(KEY_DEADLINE,task.deadline )
+
+        // Updating Row
+        val success = db.update(TABLE_CONTACTS, contentValues,"id="+task.id,null)
+        //2nd argument is String containing nullColumnHack
+        db.close() // Closing database connection
+        return success
+    }
+
+
     //method to delete data
     fun deleteTask(task: Task):Int{
         val db = this.writableDatabase

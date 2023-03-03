@@ -54,6 +54,7 @@
         android:background="#00FFFFFF"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/finish"
+        android:onClick="finishTask"
         android:src="@drawable/check_circle_fill1_wght400_grad0_opsz48" />
 
     <ImageButton

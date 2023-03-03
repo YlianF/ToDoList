@@ -45,6 +45,7 @@ class TaskAdapter(private val context: Activity,
         }
 
         btnDel.contentDescription = "Delete Button " + id[position]
+        btnCheck.contentDescription = "Finish Button " + id[position]
 
         idText.text = id[position]
         titleText.text = title[position]

@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
         //val email = findViewById<EditText>(R.id.u_email).text.toString()
         val id = "14"
         val title = "la tache du test1"
-        val state = "fini"
+        val state = "en cours"
         val deadline = "maintenant"
-        val databaseHandler: DatabaseHandler = DatabaseHandler(this)
+        val databaseHandler = DatabaseHandler(this)
         if(id.trim()!="" && title.trim()!="" && state.trim()!="" && deadline.trim() != ""){
             val status = databaseHandler.addTask(Task(Integer.parseInt(id),title, state, deadline))
             /*if(status > -1){
@@ -128,6 +128,9 @@ class MainActivity : AppCompatActivity() {
         val separated: List<String> = view.contentDescription.split(" ")
         val deleteId = separated[2]
 
+        val allTasks = viewRecord()
+
+
         dialogBuilder.setTitle("Delete Record")
         dialogBuilder.setPositiveButton("Delete", DialogInterface.OnClickListener { _, _ ->
 
@@ -147,6 +150,35 @@ class MainActivity : AppCompatActivity() {
 
         })
         dialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { _, _ ->
+            //pass
+        })
+        val b = dialogBuilder.create()
+        b.show()
+    }
+
+
+    fun finishTask(view: View){
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.update_dialog, null)
+        dialogBuilder.setView(dialogView)
+
+        val separated: List<String> = view.contentDescription.split(" ")
+        val id = separated[2]
+
+        dialogBuilder.setTitle("Update Record")
+        dialogBuilder.setPositiveButton("Update", DialogInterface.OnClickListener { _, _ ->
+
+            //creating the instance of DatabaseHandler class
+            val databaseHandler= DatabaseHandler(this)
+            val status = databaseHandler.finishTask(Integer.parseInt(id))
+            if(status > -1){
+                Toast.makeText(applicationContext,"record update",Toast.LENGTH_LONG).show()
+                viewRecord()
+            }
+
+        })
+        dialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
             //pass
         })
         val b = dialogBuilder.create()
