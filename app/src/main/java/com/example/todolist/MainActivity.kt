@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val id = "0"
         val title = "la tache du test1"
         val state = "en cours"
-        val deadline = "maintenant"
+        val deadline =""
         val databaseHandler = DatabaseHandler(this)
         if(id.trim()!="" && title.trim()!="" && state.trim()!="" && deadline.trim() != ""){
             val status = databaseHandler.addTask(Task(Integer.parseInt(id),title, state, deadline))

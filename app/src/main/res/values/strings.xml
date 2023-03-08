@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">TodoList</string>
-<<<<<<< HEAD
     <string name="task_name">Nom de la tâche</string>
-    <string name="ajouter">Ajouter</string>
-=======
+    <string name="add_task">Add task</string>
     <string name="cancel">Cancel</string>
     <string name="finish">finish</string>
     <string name="todolist">ToDoList</string>
     <string name="plus">+</string>
->>>>>>> f610b33aef4ba73b041ba3686f689d53a9419afe
+    <string name="x">x</string>
+    <string name="title">Title</string>
 </resources>
