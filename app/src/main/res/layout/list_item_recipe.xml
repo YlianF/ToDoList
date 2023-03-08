@@ -27,6 +27,8 @@
         android:layout_weight="10"
         android:text=""
         android:textAlignment="center"
+        android:onClick="updateRecord"
+        android:contentDescription="title"
         android:textSize="15sp" />
 
     <TextView

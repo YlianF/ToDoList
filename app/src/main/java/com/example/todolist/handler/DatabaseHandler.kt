@@ -80,7 +80,19 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         return taskList
     }
     //method to update data
-    fun updateTask(task: Task):Int{
+    fun updateTask(id: Int, newTitle: String):Int{
+
+        val task = Task(0, "", "", "")
+        val vt = viewTask()
+        for(i in vt){
+            if (i.id == id) {
+                task.id = i.id
+                task.title = newTitle
+                task.state = i.state
+                task.deadline = i.deadline
+            }
+        }
+
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_ID, task.id)

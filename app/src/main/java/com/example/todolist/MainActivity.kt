@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         saveRecord()
-        saveRecord()
         viewRecord()
     }
 
@@ -78,35 +77,36 @@ class MainActivity : AppCompatActivity() {
         val myListAdapter = TaskAdapter(this,taskArrayId,taskArrayTitle,taskArrayState,taskArrayDeadline)
         findViewById<ListView>(R.id.layoutListV).adapter = myListAdapter
     }
-    //method for updating records based on user id
-    /*
+
+
     fun updateRecord(view: View){
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.update_dialog, null)
         dialogBuilder.setView(dialogView)
 
-        val edtId = dialogView.findViewById(R.id.updateId) as EditText
-        val edtName = dialogView.findViewById(R.id.updateName) as EditText
-        val edtEmail = dialogView.findViewById(R.id.updateEmail) as EditText
+        val edtTitle = dialogView.findViewById(R.id.updateTitle) as EditText
 
-        dialogBuilder.setTitle("Update Record")
-        dialogBuilder.setMessage("Enter data below")
+        val separated: List<String> = view.contentDescription.split(" ")
+        val updateId = separated[2]
+
+        dialogBuilder.setTitle("Update Task")
+        dialogBuilder.setMessage("Enter the new name below")
         dialogBuilder.setPositiveButton("Update", DialogInterface.OnClickListener { _, _ ->
 
-            val updateId = edtId.text.toString()
-            val updateName = edtName.text.toString()
-            val updateEmail = edtEmail.text.toString()
+            val updateTitle = edtTitle.text.toString()
+
             //creating the instance of DatabaseHandler class
-            val databaseHandler: DatabaseHandler= DatabaseHandler(this)
-            if(updateId.trim()!="" && updateName.trim()!="" && updateEmail.trim()!=""){
+            val databaseHandler = DatabaseHandler(this)
+            if(updateTitle.trim()!=""){
                 //calling the updateEmployee method of DatabaseHandler class to update record
-                val status = databaseHandler.updateEmployee(EmpModelClass(Integer.parseInt(updateId),updateName, updateEmail))
+                val status = databaseHandler.updateTask(Integer.parseInt(updateId),updateTitle)
                 if(status > -1){
-                    Toast.makeText(applicationContext,"record update",Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext,"title updated",Toast.LENGTH_LONG).show()
+                    viewRecord()
                 }
             }else{
-                Toast.makeText(applicationContext,"id or name or email cannot be blank",Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext,"error",Toast.LENGTH_LONG).show()
             }
 
         })
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         val b = dialogBuilder.create()
         b.show()
     }
-    */
+
     //method for deleting records based on id
     fun deleteRecord(view: View){
 
@@ -129,10 +129,7 @@ class MainActivity : AppCompatActivity() {
         val separated: List<String> = view.contentDescription.split(" ")
         val deleteId = separated[2]
 
-        val allTasks = viewRecord()
-
-
-        dialogBuilder.setTitle("Delete Record")
+        dialogBuilder.setTitle("Delete Task")
         dialogBuilder.setPositiveButton("Delete", DialogInterface.OnClickListener { _, _ ->
 
             //creating the instance of DatabaseHandler class
@@ -161,14 +158,14 @@ class MainActivity : AppCompatActivity() {
     fun finishTask(view: View){
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
-        val dialogView = inflater.inflate(R.layout.update_dialog, null)
+        val dialogView = inflater.inflate(R.layout.finish_dialog, null)
         dialogBuilder.setView(dialogView)
 
         val separated: List<String> = view.contentDescription.split(" ")
         val id = separated[2]
 
-        dialogBuilder.setTitle("Update Record")
-        dialogBuilder.setPositiveButton("Update", DialogInterface.OnClickListener { _, _ ->
+        dialogBuilder.setTitle("Did you finished ?")
+        dialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
 
             //creating the instance of DatabaseHandler class
             val databaseHandler= DatabaseHandler(this)
@@ -179,7 +176,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-        dialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+        dialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
             //pass
         })
         val b = dialogBuilder.create()
