@@ -26,7 +26,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_STATE + " TEXT,"
-                + KEY_DEADLINE + " TEXT" + ")")
+                + KEY_DEADLINE + " INTEGER" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
 
@@ -72,7 +72,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
                 title = cursor.getString(cursor.getColumnIndex("title"))
                 state = cursor.getString(cursor.getColumnIndex("state"))
                 deadline = cursor.getString(cursor.getColumnIndex("deadline"))
-                val task= Task(id = id, title = title, state = state, deadline = deadline)
+                val task= Task(id = id, title = title, state = state, deadline = deadline.toInt())
                 taskList.add(task)
             } while (cursor.moveToNext())
         }
@@ -82,7 +82,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     //method to update data
     fun updateTask(id: Int, newTitle: String):Int{
 
-        val task = Task(0, "", "", "")
+        val task = Task(0, "", "", 0)
         val vt = viewTask()
         for(i in vt){
             if (i.id == id) {
@@ -110,7 +110,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
 
     fun finishTask(id: Int):Int{
 
-        val task = Task(0, "", "", "")
+        val task = Task(0, "", "", 0)
         val vt = viewTask()
         for(i in vt){
             if (i.id == id) {

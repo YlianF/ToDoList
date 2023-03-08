@@ -3,11 +3,10 @@ package com.example.todolist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import com.example.todolist.classes.Task
+import com.example.todolist.handler.DatabaseHandler
 
 class AddTask : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +22,27 @@ class AddTask : AppCompatActivity() {
         }
 
         addbtn.setOnClickListener {
+            val id = 0
             var title: TextView = findViewById(R.id.title)
             val date: DatePicker = findViewById(R.id.datePicker)
-            val newTask = Task(0, title.text.toString(), "en cours",
-                date.dayOfMonth.toString() + date.month)
+            val state = "en cours"
+            val deadline = date.dayOfMonth + date.month + date.year
+            val databaseHandler = DatabaseHandler(this)
+            if(title.text.trim()!=""){
+                val status = databaseHandler.addTask(Task(id,title.text.toString(), state, deadline))
+                /*if(status > -1){
+                    Toast.makeText(applicationContext,"record save",Toast.LENGTH_LONG).show()
+                    findViewById<EditText>(R.id.u_id).text.clear()
+                    findViewById<EditText>(R.id.u_name).text.clear()
+                    findViewById<EditText>(R.id.u_email).text.clear()
+                }
+
+                 */
+            }else{
+                Toast.makeText(applicationContext,"title must not be blank", Toast.LENGTH_LONG).show()
+            }
         }
 
     }
+
 }

@@ -23,42 +23,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        saveRecord()
         viewRecord()
     }
 
-
-
-
-    //method for saving records in database
-
-    private fun saveRecord(){
-        //val id = findViewById<EditText>(R.id.u_id).text.toString()
-        //val name = findViewById<EditText>(R.id.u_name).text.toString()
-        //val email = findViewById<EditText>(R.id.u_email).text.toString()
-        val id = "0"
-        val title = "la tache du test1"
-        val state = "en cours"
-        val deadline =""
-        val databaseHandler = DatabaseHandler(this)
-        if(id.trim()!="" && title.trim()!="" && state.trim()!="" && deadline.trim() != ""){
-            val status = databaseHandler.addTask(Task(Integer.parseInt(id),title, state, deadline))
-            /*if(status > -1){
-                Toast.makeText(applicationContext,"record save",Toast.LENGTH_LONG).show()
-                findViewById<EditText>(R.id.u_id).text.clear()
-                findViewById<EditText>(R.id.u_name).text.clear()
-                findViewById<EditText>(R.id.u_email).text.clear()
-            }
-
-             */
-        }else{
-            Toast.makeText(applicationContext,"title must not be blank",Toast.LENGTH_LONG).show()
-        }
-
-    }
-
-
-    private fun viewRecord(){
+    fun viewRecord(){
 
         val databaseHandler = DatabaseHandler(this)
 
@@ -71,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             taskArrayId[index] = t.id.toString()
             taskArrayTitle[index] = t.title
             taskArrayState[index] = t.state
-            taskArrayDeadline[index] = t.deadline
+            taskArrayDeadline[index] = t.deadline.toString()
         }
         //creating custom ArrayAdapter
         val myListAdapter = TaskAdapter(this,taskArrayId,taskArrayTitle,taskArrayState,taskArrayDeadline)
@@ -136,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             val databaseHandler = DatabaseHandler(this)
             if(deleteId.trim()!=""){
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
-                val status = databaseHandler.deleteTask(Task(Integer.parseInt(deleteId),"","", ""))
+                val status = databaseHandler.deleteTask(Task(Integer.parseInt(deleteId),"","", 0))
                 if(status > -1){
                     Toast.makeText(applicationContext,"Task " + Integer.parseInt(deleteId).toString() + " deleted",
                         Toast.LENGTH_LONG).show()
