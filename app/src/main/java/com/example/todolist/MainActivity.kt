@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         saveRecord()
+        saveRecord()
         viewRecord()
     }
 
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         //val id = findViewById<EditText>(R.id.u_id).text.toString()
         //val name = findViewById<EditText>(R.id.u_name).text.toString()
         //val email = findViewById<EditText>(R.id.u_email).text.toString()
-        val id = "14"
+        val id = "0"
         val title = "la tache du test1"
         val state = "en cours"
         val deadline = "maintenant"

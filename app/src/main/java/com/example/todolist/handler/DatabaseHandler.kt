@@ -23,7 +23,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         //creating table with fields
         val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_STATE + " TEXT,"
                 + KEY_DEADLINE + " TEXT" + ")")
@@ -41,7 +41,6 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun addTask(task: Task):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, task.id)
         contentValues.put(KEY_TITLE, task.title)
         contentValues.put(KEY_STATE,task.state )
         contentValues.put(KEY_DEADLINE,task.deadline )
