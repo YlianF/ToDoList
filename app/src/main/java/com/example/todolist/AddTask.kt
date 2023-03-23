@@ -26,21 +26,9 @@ class AddTask : AppCompatActivity() {
             var title: TextView = findViewById(R.id.title)
             val date: DatePicker = findViewById(R.id.datePicker)
             val state = "en cours"
-            val deadline = date.dayOfMonth + date.month + date.year
+            val deadline = date.dayOfMonth.toString() + "-" + (date.month+1).toString() + "-" +date.year.toString()
             val databaseHandler = DatabaseHandler(this)
-            if(title.text.trim()!=""){
-                val status = databaseHandler.addTask(Task(id,title.text.toString(), state, deadline))
-                /*if(status > -1){
-                    Toast.makeText(applicationContext,"record save",Toast.LENGTH_LONG).show()
-                    findViewById<EditText>(R.id.u_id).text.clear()
-                    findViewById<EditText>(R.id.u_name).text.clear()
-                    findViewById<EditText>(R.id.u_email).text.clear()
-                }
-
-                 */
-            }else{
-                Toast.makeText(applicationContext,"title must not be blank", Toast.LENGTH_LONG).show()
-            }
+            databaseHandler.addTask(Task(id,title.text.toString(), state, deadline))
         }
 
     }

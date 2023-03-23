@@ -20,7 +20,6 @@ class TaskAdapter(private val context: Activity,
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.list_item_recipe, null, true)
 
-        val idText = rowView.findViewById(R.id.id) as TextView
         val titleText = rowView.findViewById(R.id.title) as TextView
         val stateText = rowView.findViewById(R.id.state) as TextView
         val deadlineText = rowView.findViewById(R.id.deadline) as TextView
@@ -48,7 +47,6 @@ class TaskAdapter(private val context: Activity,
         btnCheck.contentDescription = "Finish Button " + id[position]
         titleText.contentDescription = "Task Title " + id[position]
 
-        idText.text = id[position]
         titleText.text = title[position]
         stateText.text = state[position]
         deadlineText.text = deadline[position]

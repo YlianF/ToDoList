@@ -6,5 +6,5 @@ class Task (
     var id : Int,
     var title : String,
     var state : String,
-    var deadline : Int
+    var deadline : String
     )

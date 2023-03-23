@@ -7,9 +7,13 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.todolist.adapter.TaskAdapter
 import com.example.todolist.classes.Task
 import com.example.todolist.handler.DatabaseHandler
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,14 +27,20 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        viewRecord()
+        val taskArray = viewRecord()
+
+        val image: ImageView = findViewById(R.id.imageView)
+        image.isVisible = taskArray.isEmpty()
     }
 
-    fun viewRecord(){
+    private fun viewRecord(): List<Task> {
 
         val databaseHandler = DatabaseHandler(this)
 
         val taskArray: List<Task> = databaseHandler.viewTask()
+
+
+
         val taskArrayId = Array(taskArray.size){"0"}
         val taskArrayTitle = Array(taskArray.size){"null"}
         val taskArrayState = Array(taskArray.size){"null"}
@@ -39,11 +49,22 @@ class MainActivity : AppCompatActivity() {
             taskArrayId[index] = t.id.toString()
             taskArrayTitle[index] = t.title
             taskArrayState[index] = t.state
-            taskArrayDeadline[index] = t.deadline.toString()
+            taskArrayDeadline[index] = t.deadline
+
+            //update late tasks
+            val dateFormated = taskArrayDeadline[index]
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+            val minutesDifference = TimeUnit.MINUTES.convert((dateFormat.parse(dateFormated).time - Date().time), TimeUnit.MILLISECONDS)
+            if (taskArrayState[index] =="en cours" && minutesDifference < 0) {
+                taskArrayState[index] = "en retard"
+                databaseHandler.updateState(Task(taskArrayId[index].toInt(), taskArrayTitle[index], taskArrayState[index], taskArrayDeadline[index]))
+            }
         }
         //creating custom ArrayAdapter
         val myListAdapter = TaskAdapter(this,taskArrayId,taskArrayTitle,taskArrayState,taskArrayDeadline)
         findViewById<ListView>(R.id.layoutListV).adapter = myListAdapter
+
+        return taskArray
     }
 
 
@@ -104,7 +125,7 @@ class MainActivity : AppCompatActivity() {
             val databaseHandler = DatabaseHandler(this)
             if(deleteId.trim()!=""){
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
-                val status = databaseHandler.deleteTask(Task(Integer.parseInt(deleteId),"","", 0))
+                val status = databaseHandler.deleteTask(Task(Integer.parseInt(deleteId),"","", ""))
                 if(status > -1){
                     Toast.makeText(applicationContext,"Task " + Integer.parseInt(deleteId).toString() + " deleted",
                         Toast.LENGTH_LONG).show()
