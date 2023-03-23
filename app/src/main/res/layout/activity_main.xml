@@ -33,12 +33,13 @@
         android:id="@+id/imageView"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        app:srcCompat="@mipmap/confettiman_logo_foreground"
+        app:srcCompat="@mipmap/confettiman_png_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="200dp"
