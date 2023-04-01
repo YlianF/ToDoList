@@ -14,11 +14,11 @@ class TaskAdapter(private val context: Activity,
                   private val title: Array<String>,
                   private val state: Array<String>,
                   private val deadline: Array<String>)
-    : ArrayAdapter<String>(context, R.layout.list_item_recipe, title) {
+    : ArrayAdapter<String>(context, R.layout.list_tasks, title) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
-        val rowView = inflater.inflate(R.layout.list_item_recipe, null, true)
+        val rowView = inflater.inflate(R.layout.list_tasks, null, true)
 
         val titleText = rowView.findViewById(R.id.title) as TextView
         val stateText = rowView.findViewById(R.id.state) as TextView
@@ -28,16 +28,16 @@ class TaskAdapter(private val context: Activity,
         val btnCheck : AppCompatImageButton = rowView.findViewById(R.id.btnCheck)
         val btnDel : AppCompatImageButton = rowView.findViewById(R.id.btnDel)
 
-        if (state[position] == "en cours") {
+        if (state[position] == "todo") {
             layoutItem.background = ContextCompat.getDrawable(context,
                 R.drawable.rounded_corners_light_purple
             )
-        } else if (state[position] == "fini") {
+        } else if (state[position] == "finished") {
             btnCheck.visibility = View.GONE
             layoutItem.background = ContextCompat.getDrawable(context,
                 R.drawable.rounded_corners_green
             )
-        } else if (state[position] == "en retard") {
+        } else if (state[position] == "late") {
             layoutItem.background = ContextCompat.getDrawable(context,
                 R.drawable.rounded_corners_dark_purple
             )

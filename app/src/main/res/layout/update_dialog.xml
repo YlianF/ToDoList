@@ -7,9 +7,11 @@
 
     <EditText
         android:id="@+id/updateTitle"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="enter the new title"/>
+        android:hint="@string/enter_the_new_title"
+        android:autofillHints="name"/>
 
 </LinearLayout>

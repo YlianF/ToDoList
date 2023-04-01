@@ -55,8 +55,7 @@
 
     <EditText
         android:id="@id/title"
-        android:layout_width="match_parent"
-        android:maxWidth="480dp"
+        android:layout_width="300dp"
         android:layout_height="48dp"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"

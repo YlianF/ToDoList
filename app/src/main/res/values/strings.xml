@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">TodoList</string>
-    <string name="task_name">Nom de la tâche</string>
+    <string name="task_name">Task name</string>
     <string name="add_task">Add task</string>
     <string name="cancel">Cancel</string>
-    <string name="finish">finish</string>
+    <string name="finish">Finish</string>
     <string name="todolist">ToDoList</string>
     <string name="plus">+</string>
     <string name="x">x</string>
@@ -11,4 +11,5 @@
     <string name="nodate">No Date</string>
     <string name="adddate">Add Date</string>
     <string name="mascott_confettiman">Mascott ConfettiMan</string>
+    <string name="enter_the_new_title">enter the new title</string>
 </resources>

@@ -48,7 +48,7 @@ class AddTask : AppCompatActivity() {
             val id = 0
             val title: TextView = findViewById(R.id.title)
             val date: DatePicker = findViewById(R.id.datePicker)
-            val state = "en cours"
+            val state = "todo"
             if (istaskdate && title.text.toString() != "") {
                 val deadline = date.dayOfMonth.toString() + "-" + (date.month+1).toString() + "-" +date.year.toString()
                 databaseHandler.addTask(Task(id,title.text.toString(), state, deadline))

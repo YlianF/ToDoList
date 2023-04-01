@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import com.example.todolist.adapter.TaskAdapter
 import com.example.todolist.classes.Task
 import com.example.todolist.handler.DatabaseHandler
-import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -21,29 +20,47 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btn: Button = findViewById(R.id.addButton)
-        val chipgrp: ChipGroup = findViewById(R.id.chips)
+        val btnadd: Button = findViewById(R.id.addButton)
 
-        btn.setOnClickListener {
+        val btntodo: Button = findViewById(R.id.btn1)
+        val btnlate: Button = findViewById(R.id.btn3)
+        val btnfinished: Button = findViewById(R.id.btn2)
+        val btnall: Button = findViewById(R.id.btn4)
+
+        //go to add task page
+        btnadd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddTask::class.java)
             startActivity(intent)
         }
 
-        val taskArray = viewRecord()
+        //view task when main page is loading
+        val taskArray = viewRecord("")
 
+        //making visible and invisible confettiman if there are no tasks
         val image: ImageView = findViewById(R.id.imageView)
         image.isVisible = taskArray.isEmpty()
 
+        //all listeners for sorting tasks :
+        btnall.setOnClickListener() {
+            viewRecord("")
+        }
+        btntodo.setOnClickListener() {
+            viewRecord("todo")
+        }
+        btnlate.setOnClickListener() {
+            viewRecord("late")
+        }
+        btnfinished.setOnClickListener() {
+            viewRecord("finished")
+        }
 
     }
 
-    private fun viewRecord(): List<Task> {
+    private fun viewRecord(state: String): List<Task> {
 
         val databaseHandler = DatabaseHandler(this)
 
-        val taskArray: List<Task> = databaseHandler.viewTask()
-
-
+        val taskArray: List<Task> = databaseHandler.viewTask(state)
 
         val taskArrayId = Array(taskArray.size){"0"}
         val taskArrayTitle = Array(taskArray.size){"null"}
@@ -60,8 +77,8 @@ class MainActivity : AppCompatActivity() {
                 val dateFormated = taskArrayDeadline[index]
                 val dateFormat = SimpleDateFormat("dd-MM-yyyy")
                 val minutesDifference = TimeUnit.MINUTES.convert((dateFormat.parse(dateFormated).time - Date().time), TimeUnit.MILLISECONDS)
-                if (taskArrayState[index] =="en cours" && minutesDifference < 0) {
-                    taskArrayState[index] = "en retard"
+                if (taskArrayState[index] =="todo" && minutesDifference < 0) {
+                    taskArrayState[index] = "late"
                     databaseHandler.updateState(Task(taskArrayId[index].toInt(), taskArrayTitle[index], taskArrayState[index], taskArrayDeadline[index]))
                 }
             }
@@ -69,6 +86,8 @@ class MainActivity : AppCompatActivity() {
         }
         //creating custom ArrayAdapter
         val myListAdapter = TaskAdapter(this,taskArrayId,taskArrayTitle,taskArrayState,taskArrayDeadline)
+
+
         findViewById<ListView>(R.id.layoutListV).adapter = myListAdapter
 
         return taskArray
@@ -99,14 +118,14 @@ class MainActivity : AppCompatActivity() {
                 val status = databaseHandler.updateTask(Integer.parseInt(updateId),updateTitle)
                 if(status > -1){
                     Toast.makeText(applicationContext,"title updated",Toast.LENGTH_LONG).show()
-                    viewRecord()
+                    viewRecord("")
                 }
             }else{
                 Toast.makeText(applicationContext,"error",Toast.LENGTH_LONG).show()
             }
 
         })
-        dialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+        dialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { _, _ ->
             //pass
         })
         val b = dialogBuilder.create()
@@ -136,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                 if(status > -1){
                     Toast.makeText(applicationContext,"Task " + Integer.parseInt(deleteId).toString() + " deleted",
                         Toast.LENGTH_LONG).show()
-                    viewRecord()
+                    viewRecord("")
                 }
             }else{
                 Toast.makeText(applicationContext,"error",Toast.LENGTH_LONG).show()
@@ -160,7 +179,7 @@ class MainActivity : AppCompatActivity() {
         val separated: List<String> = view.contentDescription.split(" ")
         val id = separated[2]
 
-        dialogBuilder.setTitle("Did you finished ?")
+        dialogBuilder.setTitle("Did you finish ?")
         dialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
 
             //creating the instance of DatabaseHandler class
@@ -168,11 +187,11 @@ class MainActivity : AppCompatActivity() {
             val status = databaseHandler.finishTask(Integer.parseInt(id))
             if(status > -1){
                 Toast.makeText(applicationContext,"record update",Toast.LENGTH_LONG).show()
-                viewRecord()
+                viewRecord("")
             }
 
         })
-        dialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+        dialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { _, _ ->
             //pass
         })
         val b = dialogBuilder.create()

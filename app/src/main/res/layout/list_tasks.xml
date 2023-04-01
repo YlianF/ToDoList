@@ -19,7 +19,7 @@
         android:text=""
         android:textAlignment="center"
         android:onClick="updateRecord"
-        android:contentDescription="title"
+        android:contentDescription="@string/title"
         android:textSize="15sp" />
 
     <TextView

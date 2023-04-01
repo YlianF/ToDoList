@@ -50,10 +50,22 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db.close() // Closing database connection
         return success
     }
-    //method to read data
-    fun viewTask():List<Task>{
-        val taskList:ArrayList<Task> = ArrayList()
+
+    private fun getQueryViewTask(state: String): String {
         val selectQuery = "SELECT * FROM $TABLE_CONTACTS"
+
+        if (state != "") {
+            return "SELECT * FROM $TABLE_CONTACTS WHERE TRIM(state) = '"+state.trim()+"'"
+        }
+        return selectQuery
+    }
+    //method to read data
+    fun viewTask(state: String):List<Task>{
+        val taskList:ArrayList<Task> = ArrayList()
+
+
+        val selectQuery = getQueryViewTask(state)
+
         val db = this.readableDatabase
         val cursor: Cursor?
         try{
@@ -83,7 +95,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun updateTask(id: Int, newTitle: String):Int{
 
         val task = Task(0, "", "", "")
-        val vt = viewTask()
+        val vt = viewTask("")
         for(i in vt){
             if (i.id == id) {
                 task.id = i.id
@@ -92,6 +104,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
                 task.deadline = i.deadline
             }
         }
+
 
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -109,12 +122,11 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
 
     fun updateState(task: Task): Int {
 
-
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_ID, task.id)
         contentValues.put(KEY_TITLE, task.title)
-        contentValues.put(KEY_STATE,"en retard" )
+        contentValues.put(KEY_STATE,"late" )
         contentValues.put(KEY_DEADLINE,task.deadline )
 
         // Updating Row
@@ -128,12 +140,12 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun finishTask(id: Int):Int{
 
         val task = Task(0, "", "", "")
-        val vt = viewTask()
+        val vt = viewTask("")
         for(i in vt){
             if (i.id == id) {
                 task.id = i.id
                 task.title = i.title
-                task.state = "fini"
+                task.state = "finished"
                 task.deadline = i.deadline
             }
         }
