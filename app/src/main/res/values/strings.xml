@@ -8,4 +8,7 @@
     <string name="plus">+</string>
     <string name="x">x</string>
     <string name="title">Title</string>
+    <string name="nodate">No Date</string>
+    <string name="adddate">Add Date</string>
+    <string name="mascott_confettiman">Mascott ConfettiMan</string>
 </resources>

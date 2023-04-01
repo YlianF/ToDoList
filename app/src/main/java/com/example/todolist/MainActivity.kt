@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import com.example.todolist.adapter.TaskAdapter
 import com.example.todolist.classes.Task
 import com.example.todolist.handler.DatabaseHandler
+import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btn: Button = findViewById(R.id.addButton)
+        val chipgrp: ChipGroup = findViewById(R.id.chips)
 
         btn.setOnClickListener {
             val intent = Intent(this@MainActivity, AddTask::class.java)
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         val image: ImageView = findViewById(R.id.imageView)
         image.isVisible = taskArray.isEmpty()
+
+
     }
 
     private fun viewRecord(): List<Task> {
@@ -51,14 +55,17 @@ class MainActivity : AppCompatActivity() {
             taskArrayState[index] = t.state
             taskArrayDeadline[index] = t.deadline
 
-            //update late tasks
-            val dateFormated = taskArrayDeadline[index]
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
-            val minutesDifference = TimeUnit.MINUTES.convert((dateFormat.parse(dateFormated).time - Date().time), TimeUnit.MILLISECONDS)
-            if (taskArrayState[index] =="en cours" && minutesDifference < 0) {
-                taskArrayState[index] = "en retard"
-                databaseHandler.updateState(Task(taskArrayId[index].toInt(), taskArrayTitle[index], taskArrayState[index], taskArrayDeadline[index]))
+            //update late tasks of task with deadline
+            if (taskArrayDeadline[index] != "") {
+                val dateFormated = taskArrayDeadline[index]
+                val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+                val minutesDifference = TimeUnit.MINUTES.convert((dateFormat.parse(dateFormated).time - Date().time), TimeUnit.MILLISECONDS)
+                if (taskArrayState[index] =="en cours" && minutesDifference < 0) {
+                    taskArrayState[index] = "en retard"
+                    databaseHandler.updateState(Task(taskArrayId[index].toInt(), taskArrayTitle[index], taskArrayState[index], taskArrayDeadline[index]))
+                }
             }
+
         }
         //creating custom ArrayAdapter
         val myListAdapter = TaskAdapter(this,taskArrayId,taskArrayTitle,taskArrayState,taskArrayDeadline)
