@@ -2,7 +2,9 @@ package com.example.todolist
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         val btnlate: Button = findViewById(R.id.btn3)
         val btnfinished: Button = findViewById(R.id.btn2)
         val btnall: Button = findViewById(R.id.btn4)
+
+        val imageHaut = findViewById<ImageView>(R.id.image_view_anime)
+        imageHaut.visibility = ImageView.INVISIBLE
 
         //go to add task page
         btnadd.setOnClickListener {
@@ -188,6 +194,10 @@ class MainActivity : AppCompatActivity() {
             if(status > -1){
                 Toast.makeText(applicationContext,"record update",Toast.LENGTH_LONG).show()
                 viewRecord("")
+                val imageView = findViewById<ImageView>(R.id.image_view_anime)
+                val musique = R.raw.animation
+
+                playAnimation(imageView, musique, 200L, 3000L) //pour les temps
             }
 
         })
@@ -195,7 +205,29 @@ class MainActivity : AppCompatActivity() {
             //pass
         })
         val b = dialogBuilder.create()
+
         b.show()
+    }
+
+    private fun playAnimation(
+        imageView: ImageView,
+        musique: Int,
+        delayShow: Long,
+        delayStop: Long
+    ) {
+        val mediaPlayer = MediaPlayer.create(this, musique)
+        val handler = Handler()
+
+        handler.postDelayed({
+            imageView.visibility = ImageView.VISIBLE
+            mediaPlayer.start()
+        }, delayShow)
+
+        handler.postDelayed({
+            imageView.visibility = ImageView.INVISIBLE
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }, delayStop)
     }
 
 }
